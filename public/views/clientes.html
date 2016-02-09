@@ -7,5 +7,6 @@
 	<select id="select_consulta" ng-options="item as item.consultaid for item in data.consultas" ng-model="selected"></select>
 	<hr>
 	<textarea ng-show="selected" ng-model="selected.texto"></textarea><br>
+	<button data-ng-click="navigate('/login');"></button>
 
 </div>

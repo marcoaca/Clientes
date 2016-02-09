@@ -1,24 +1,31 @@
 var appcontrollers = angular.module('appcontrollers', []);
 
-appcontrollers.controller('mainCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', function($scope, $rootScope, $location, $http, $window) {
+appcontrollers.controller('loginCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', function($scope, $rootScope, $location, $http, $window) {
     $scope.user = {login:'nome',password:'password'};
     $scope.auth_error = '';
     $scope.authenticate = function(){
         console.log($scope.user);
-        $http.post('/api/v1/login', $scope.user)
+        $http.post('api/v1/login', $scope.user)
             .success(function (data, status, headers, config) {
                 console.log('login success');
+                console.log(data.token);
                 $window.sessionStorage.token = data.token;
                 $rootScope.isAuthenticated = true;
             })
             .error(function (data, status, headers, config) {
+                console.log(data);
                 delete $window.sessionStorage.token;
                 $scope.auth_error = data;
-            })
+            });
+        return;
     };
 }]);
 
-appcontrollers.controller('clientesCtrl', ['$scope', '$http', function ($scope, $http) {
+appcontrollers.controller('clientesCtrl', ['$scope', '$http','$location', function ($scope, $http, $location) {
+
+    $scope.navigate = function(location){
+        $location.path(location);
+    }
 
     $scope.data = {};
 

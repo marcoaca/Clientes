@@ -1,33 +1,31 @@
 var express = require('express');
 var apirouter = express.Router();
-var bcrypt		= require('bcryptjs');
 var expressJwt 	= require('express-jwt');
 var jwt 		= require('jsonwebtoken');
 
-apirouter.use('/api/v1', expressJwt({secret: '2280C0A70B1CA6B4C07768880DA1F9C55DA82ED6'}));
 
-apirouter.post('/api/v1/login', function(req,res,next){
+
+apirouter.post('/api/v1/login', function(req, res, next){
     console.log(req.body);
-    if (!(req.body.email === 'john.doe' && req.body.password === 'foobar')) {
-        res.status(401).send('Wrong user or password');
-        return;
-    }
     var profile = {
-        email: req.body.email,
+        email: req.body.login,
         id: 123
     };
     var token = jwt.sign(profile, '2280C0A70B1CA6B4C07768880DA1F9C55DA82ED6', { expiresIn: 60*60 });
-    res.json({ token: token });
+    res.status(200).json({ token: token });
 });
 
+apirouter.use('/api/v1', expressJwt({secret: '2280C0A70B1CA6B4C07768880DA1F9C55DA82ED6'}));
+
 apirouter.get('/api/v1/clientes', function (req, res, next) {
+    console.log(req.body);
     var clientes = [
         {clienteid: 1, nome: 'nome 1'},
         {clienteid: 2, nome: 'nome 2'},
         {clienteid: 3, nome: 'nome 3'},
         {clienteid: 4, nome: 'nome 4'}
     ];
-    res.json(clientes);
+    res.status(200).json(clientes);
 });
 
 apirouter.get('/api/v1/clientes/:clienteId/consultas', function (req, res, next) {

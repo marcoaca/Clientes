@@ -6,13 +6,10 @@ myapp.config(['$routeProvider','$locationProvider',
 				controller : 'clientesCtrl',
 				templateUrl : '/views/clientes.html'})
 			.when('/login',{
-				controller : 'mainCtrl',
-				templateUrl : '/views/login.html'})
-			.when('/clientes',{
-				controller : '',
-				templateUrl : '/views/clientes.html'});
+				controller : 'loginCtrl',
+				templateUrl : '/views/login.html'});
 
-		$locationProvider.html5Mode(true);
+		$locationProvider.html5Mode({enabled:true, requireBase: true, rewriteLinks: true});
 	}
 ]);
 
@@ -21,7 +18,7 @@ myapp.factory('authInterceptor', function($rootScope, $q, $window) {
 		request : function(config) {
 			config.headers = config.headers || {};
 			if ($window.sessionStorage.token) {
-				config.headers.Authorization = 'Token '
+				config.headers.Authorization = 'Bearer '
 					+ $window.sessionStorage.token;
 			}
 			return config;
