@@ -4,13 +4,13 @@ myapp.config(['$routeProvider','$locationProvider',
 		$routeProvider
 			.when('/', {
 				controller : 'clientesCtrl',
-				templateUrl : 'views/clientes.html'})
+				templateUrl : '/views/clientes.html'})
 			.when('/login',{
-				controller : 'loginCtrl',
-				templateUrl : 'views/login.html'})
+				controller : 'mainCtrl',
+				templateUrl : '/views/login.html'})
 			.when('/clientes',{
 				controller : '',
-				templateUrl : 'views/clientes.html'});
+				templateUrl : '/views/clientes.html'});
 
 		$locationProvider.html5Mode(true);
 	}
