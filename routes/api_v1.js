@@ -3,10 +3,10 @@ var apirouter = express.Router();
 var expressJwt 	= require('express-jwt');
 var jwt 		= require('jsonwebtoken');
 
-
+apirouter.use('/api/v1/*', expressJwt({secret: '2280C0A70B1CA6B4C07768880DA1F9C55DA82ED6'}).unless({path:['/api/v1/login']}));
 
 apirouter.post('/api/v1/login', function(req, res, next){
-    console.log(req.body);
+    console.log(req.headers);
     var profile = {
         email: req.body.login,
         id: 123
@@ -15,9 +15,7 @@ apirouter.post('/api/v1/login', function(req, res, next){
     res.status(200).json({ token: token });
 });
 
-apirouter.use('/api/v1', expressJwt({secret: '2280C0A70B1CA6B4C07768880DA1F9C55DA82ED6'}));
-
-apirouter.get('/api/v1/clientes', function (req, res, next) {
+apirouter.get('/api/v1/clientes/', function (req, res, next) {
     console.log(req.body);
     var clientes = [
         {clienteid: 1, nome: 'nome 1'},
@@ -28,7 +26,7 @@ apirouter.get('/api/v1/clientes', function (req, res, next) {
     res.status(200).json(clientes);
 });
 
-apirouter.get('/api/v1/clientes/:clienteId/consultas', function (req, res, next) {
+apirouter.get('/api/v1/clientes/:clienteId/consultas/', function (req, res, next) {
     var consultas = [
         {consultaid: 1, clienteid: 1, texto: 'texto consulta 1'},
         {consultaid: 2, clienteid: 1, texto: 'texto consulta 2'},

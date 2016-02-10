@@ -1,21 +1,23 @@
 var appcontrollers = angular.module('appcontrollers', []);
 
 appcontrollers.controller('loginCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', function($scope, $rootScope, $location, $http, $window) {
+    $rootScope.errors = [];
     $scope.user = {login:'nome',password:'password'};
     $scope.auth_error = '';
     $scope.authenticate = function(){
         console.log($scope.user);
-        $http.post('api/v1/login', $scope.user)
-            .success(function (data, status, headers, config) {
+        $http.post('api/v1/login', $scope.user).then(
+            function (response) {
                 console.log('login success');
-                console.log(data.token);
-                $window.sessionStorage.token = data.token;
+                console.log(response.data.token);
+                $window.sessionStorage.token = response.data.token;
                 $rootScope.isAuthenticated = true;
-            })
-            .error(function (data, status, headers, config) {
-                console.log(data);
+            },
+            function (response) {
+                console.log(response.data);
                 delete $window.sessionStorage.token;
-                $scope.auth_error = data;
+                $rootScope.errors.push(response.data);
+                $scope.auth_error = response.data;
             });
         return;
     };
