@@ -8,14 +8,23 @@
 	<script src="resources/angular/angular.min.js"></script>
 	<script src="resources/angular/angular-animate.min.js"></script>
 	<script src="resources/angular/angular-route.min.js"></script>
-    <script src="resources/bootstrap/ui-bootstrap-1.1.2.min.js"></script>
+    <script src="resources/angular/ui-bootstrap-tpls-1.1.2.min.js"></script>
 	<script src="angular_app.js"></script>
 	<script src="controllers/controllers.js"></script>
 	<link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="stylesheets/style.css">
 
 </head>
-<body>
+<body ng-controller="mainCtrl">
+    <div>
+        <script type="text/ng-template" id="alert.html">
+            <div class="alert" role="alert">
+                <div ng-transclude></div>
+            </div>
+        </script>
+
+        <uib-alert ng-repeat="error in errors" type="danger" close="closeError($index)">{{error.name}} - {{error.message}}</uib-alert>
+    </div>
 	<div class="container" ng-view>
 
 	</div>

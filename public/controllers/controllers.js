@@ -1,7 +1,18 @@
 var appcontrollers = angular.module('appcontrollers', []);
 
-appcontrollers.controller('loginCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', function($scope, $rootScope, $location, $http, $window) {
+appcontrollers.controller('mainCtrl',['$rootScope', '$scope', function($rootScope,$scope){
     $rootScope.errors = [];
+    $rootScope.closeError = function(index) {
+        $rootScope.errors.splice(index, 1);
+    };
+
+}]);
+
+appcontrollers.controller('errorCtrl',['rootScope', function($rootScope){
+
+}]);
+
+appcontrollers.controller('loginCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', function($scope, $rootScope, $location, $http, $window) {
     $scope.user = {login:'nome',password:'password'};
     $scope.auth_error = '';
     $scope.authenticate = function(){
@@ -9,9 +20,9 @@ appcontrollers.controller('loginCtrl', ['$scope', '$rootScope', '$location', '$h
         $http.post('api/v1/login', $scope.user).then(
             function (response) {
                 console.log('login success');
-                console.log(response.data.token);
                 $window.sessionStorage.token = response.data.token;
                 $rootScope.isAuthenticated = true;
+                $location.path('/clientes');
             },
             function (response) {
                 console.log(response.data);
@@ -23,7 +34,7 @@ appcontrollers.controller('loginCtrl', ['$scope', '$rootScope', '$location', '$h
     };
 }]);
 
-appcontrollers.controller('clientesCtrl', ['$scope', '$http','$location', function ($scope, $http, $location) {
+appcontrollers.controller('clientesCtrl', ['$scope', '$http', '$location', '$rootScope', function ($scope, $http, $location, $rootScope) {
 
     $scope.navigate = function(location){
         $location.path(location);

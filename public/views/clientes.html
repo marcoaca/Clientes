@@ -1,9 +1,4 @@
 <div>
-	<ul>
-        <li ng-repeat="error in errors">
-            <div>{{error.message}}</div>
-        </li>
-	</ul>
 	Clientes:<br>
 	<select id="select_cliente" ng-options="cliente.clienteid as cliente.nome for cliente in data.clientes" ng-model="data.clienteid" ng-change="consultas(data.clienteid)"></select>
 	<hr>
